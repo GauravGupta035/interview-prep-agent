@@ -1,0 +1,362 @@
+[
+  {
+    "id": "beh_001",
+    "competency": "problem-solving",
+    "question": "Tell me about a time you had to solve a complex technical problem with incomplete information.",
+    "what_they_want": [
+      "initiative",
+      "structured thinking",
+      "outcome focus"
+    ],
+    "red_flags": [
+      "blaming others",
+      "no clear personal action",
+      "vague outcome"
+    ]
+  },
+  {
+    "id": "beh_002",
+    "competency": "learning-agility",
+    "question": "Describe a situation where you had to learn a new technology or skill quickly under pressure.",
+    "what_they_want": [
+      "self-direction",
+      "speed of learning",
+      "applied result"
+    ],
+    "red_flags": [
+      "no clear deadline or pressure",
+      "learning without application",
+      "team did it not you"
+    ]
+  },
+  {
+    "id": "beh_003",
+    "competency": "stakeholder-management",
+    "question": "Tell me about a time you had to manage a difficult stakeholder or push back on a request.",
+    "what_they_want": [
+      "communication",
+      "assertiveness",
+      "maintaining relationship"
+    ],
+    "red_flags": [
+      "avoided conflict entirely",
+      "no resolution",
+      "blaming the stakeholder"
+    ]
+  },
+  {
+    "id": "beh_004",
+    "competency": "leadership",
+    "question": "Give an example of when you led a team or initiative through a challenge.",
+    "what_they_want": [
+      "ownership",
+      "coordination",
+      "measurable outcome"
+    ],
+    "red_flags": [
+      "'we' instead of 'I'",
+      "no specific actions taken",
+      "unclear what you personally did"
+    ]
+  },
+  {
+    "id": "beh_005",
+    "competency": "resilience",
+    "question": "Tell me about a time you made a significant mistake and how you handled it.",
+    "what_they_want": [
+      "accountability",
+      "self-awareness",
+      "what you learned"
+    ],
+    "red_flags": [
+      "blaming external factors",
+      "trivial mistake",
+      "no reflection on learning"
+    ]
+  },
+  {
+    "id": "beh_006",
+    "competency": "delivery",
+    "question": "Describe a project where you had to deliver under tight deadlines or with limited resources.",
+    "what_they_want": [
+      "prioritisation",
+      "pragmatism",
+      "delivery under constraints"
+    ],
+    "red_flags": [
+      "missed the deadline with no mitigation",
+      "no personal ownership",
+      "vague about what was cut"
+    ]
+  },
+  {
+    "id": "beh_007",
+    "competency": "collaboration",
+    "question": "Tell me about a time you worked with a cross-functional team to deliver something.",
+    "what_they_want": [
+      "communication across roles",
+      "conflict resolution",
+      "shared outcome"
+    ],
+    "red_flags": [
+      "no mention of challenges",
+      "took sole credit",
+      "purely technical answer"
+    ]
+  },
+  {
+    "id": "beh_008",
+    "competency": "initiative",
+    "question": "Give an example of when you identified and solved a problem nobody asked you to fix.",
+    "what_they_want": [
+      "proactiveness",
+      "impact",
+      "going beyond the brief"
+    ],
+    "red_flags": [
+      "was asked to do it",
+      "impact unclear",
+      "team effort with no personal drive shown"
+    ]
+  },
+  {
+    "id": "beh_009",
+    "competency": "communication",
+    "question": "Describe a situation where you had to explain a complex technical concept or decision to a non-technical audience, like a client or senior manager.",
+    "what_they_want": [
+      "Clarity and conciseness",
+      "Ability to tailor information to the audience",
+      "Managing expectations"
+    ],
+    "red_flags": [
+      "Using excessive jargon",
+      "Failing to simplify complex ideas",
+      "Condescending tone"
+    ]
+  },
+  {
+    "id": "beh_010",
+    "competency": "adaptability",
+    "question": "Tell me about a time when a project's requirements or scope changed significantly mid-way through development. How did you adapt?",
+    "what_they_want": [
+      "Flexibility in planning and execution",
+      "Proactive problem-solving under uncertainty",
+      "Positive attitude towards change"
+    ],
+    "red_flags": [
+      "Resistance to change",
+      "Blaming external factors",
+      "Inability to adjust plans effectively"
+    ]
+  },
+  {
+    "id": "beh_011",
+    "competency": "ownership",
+    "question": "Give an example of a time when you took full ownership of a task or project, even when facing significant obstacles or unexpected challenges.",
+    "what_they_want": [
+      "Proactive responsibility",
+      "Perseverance through difficulties",
+      "Accountability for outcomes"
+    ],
+    "red_flags": [
+      "Passing responsibility to others",
+      "Abandoning tasks when difficult",
+      "Lack of follow-through"
+    ]
+  },
+  {
+    "id": "beh_012",
+    "competency": "attention-to-detail",
+    "question": "Tell me about a time when your attention to detail prevented a significant issue or improved the quality of a deliverable.",
+    "what_they_want": [
+      "Thoroughness in work",
+      "Proactive identification of potential flaws",
+      "Impact on quality or risk mitigation"
+    ],
+    "red_flags": [
+      "Overlooking critical errors",
+      "Superficial checks",
+      "Relying solely on others for quality assurance"
+    ]
+  },
+  {
+    "id": "beh_013",
+    "competency": "problem-solving",
+    "question": "Describe a situation where you identified a recurring process inefficiency or a non-technical bottleneck, and what steps you took to address it.",
+    "what_they_want": [
+      "Analytical thinking beyond code",
+      "Structured approach to process improvement",
+      "Impact on team or project efficiency"
+    ],
+    "red_flags": [
+      "Only identifying problems without proposing solutions",
+      "Superficial analysis of the root cause",
+      "Failing to consider broader implications"
+    ]
+  },
+  {
+    "id": "beh_014",
+    "competency": "resilience",
+    "question": "Give an example of a time when you received constructive criticism or negative feedback on your work. How did you react and what did you do with it?",
+    "what_they_want": [
+      "Openness to feedback",
+      "Ability to self-reflect and improve",
+      "Emotional maturity in handling criticism"
+    ],
+    "red_flags": [
+      "Defensiveness or rejection of feedback",
+      "Ignoring feedback and repeating mistakes",
+      "Taking criticism personally rather than professionally"
+    ]
+  },
+  {
+    "id": "beh_015",
+    "competency": "leadership",
+    "question": "Describe a time when you had to influence colleagues or a team to adopt a new technical approach or best practice, even if you weren't their formal leader.",
+    "what_they_want": [
+      "Persuasion and communication skills",
+      "Technical credibility and expertise",
+      "Ability to foster buy-in and collaboration"
+    ],
+    "red_flags": [
+      "Authoritarian or aggressive approach",
+      "Inability to justify decisions logically",
+      "Creating conflict rather than consensus"
+    ]
+  },
+  {
+    "id": "beh_016",
+    "competency": "delivery",
+    "question": "Tell me about a time you had multiple high-priority tasks or projects competing for your attention. How did you decide what to focus on and ensure timely delivery?",
+    "what_they_want": [
+      "Effective prioritisation skills",
+      "Strategic thinking and time management",
+      "Ability to manage workload and meet commitments"
+    ],
+    "red_flags": [
+      "Poor prioritisation leading to missed deadlines",
+      "Inability to say 'no' or ask for help",
+      "Lack of a structured approach to task management"
+    ]
+  },
+  {
+    "id": "beh_017",
+    "competency": "collaboration",
+    "question": "Describe a situation where you had a disagreement or conflicting technical opinions with a team member. How did you resolve it?",
+    "what_they_want": [
+      "Conflict resolution skills",
+      "Ability to articulate and defend a position respectfully",
+      "Seeking common ground and compromise"
+    ],
+    "red_flags": [
+      "Avoiding conflict or passive-aggressiveness",
+      "Being overly confrontational or dismissive",
+      "Inability to reach a constructive resolution"
+    ]
+  },
+  {
+    "id": "beh_018",
+    "competency": "learning-agility",
+    "question": "Describe a situation where you identified a significant gap in your technical knowledge or a new industry best practice emerged, and how you proactively sought to fill that gap or adopt the new practice.",
+    "what_they_want": [
+      "proactive learning",
+      "self-awareness of knowledge gaps",
+      "application of new knowledge"
+    ],
+    "red_flags": [
+      "waits to be told what to learn",
+      "blames others for knowledge gaps",
+      "fails to apply new learning"
+    ]
+  },
+  {
+    "id": "beh_019",
+    "competency": "stakeholder-management",
+    "question": "Give an example of a time when you had to align conflicting priorities or expectations among multiple stakeholders for a technical project. How did you navigate the different perspectives?",
+    "what_they_want": [
+      "negotiation skills",
+      "ability to find common ground",
+      "clear communication of trade-offs"
+    ],
+    "red_flags": [
+      "favours one stakeholder without justification",
+      "avoids difficult conversations",
+      "fails to communicate impact of conflicts"
+    ]
+  },
+  {
+    "id": "beh_020",
+    "competency": "initiative",
+    "question": "Tell me about a time you proactively identified a potential technical risk or future challenge for a project and took steps to mitigate it before it became a major issue.",
+    "what_they_want": [
+      "forward-thinking",
+      "proactive problem-solving",
+      "demonstrates ownership beyond assigned tasks"
+    ],
+    "red_flags": [
+      "only reacts to problems",
+      "waits for explicit instructions",
+      "ignores potential issues until they escalate"
+    ]
+  },
+  {
+    "id": "beh_021",
+    "competency": "communication",
+    "question": "Give an example of a time when a critical technical decision needed to be made, and how you ensured all relevant information and perspectives were communicated effectively to reach a consensus among your team.",
+    "what_they_want": [
+      "facilitation of discussion",
+      "clarity in presenting options",
+      "ability to synthesise diverse views"
+    ],
+    "red_flags": [
+      "dominates discussion",
+      "fails to listen to others",
+      "poorly articulates technical trade-offs"
+    ]
+  },
+  {
+    "id": "beh_022",
+    "competency": "adaptability",
+    "question": "Describe a time when the underlying technical assumptions or chosen architecture for a project proved unfeasible or significantly flawed during development. How did you adapt your approach and contribute to finding a new solution?",
+    "what_they_want": [
+      "flexibility in technical approach",
+      "problem-solving under pressure",
+      "ability to pivot strategies"
+    ],
+    "red_flags": [
+      "resists change",
+      "sticks rigidly to initial plans",
+      "blames others for technical missteps"
+    ]
+  },
+  {
+    "id": "beh_023",
+    "competency": "ownership",
+    "question": "Tell me about a time you identified a bug or issue in a production system that wasn't directly assigned to you or your team. What steps did you take to ensure it was addressed and resolved?",
+    "what_they_want": [
+      "proactive problem resolution",
+      "responsibility beyond explicit tasks",
+      "focus on overall system health"
+    ],
+    "red_flags": [
+      "ignores issues outside their domain",
+      "passes responsibility without follow-up",
+      "waits for formal assignment"
+    ]
+  },
+  {
+    "id": "beh_024",
+    "competency": "attention-to-detail",
+    "question": "Describe a situation where paying close attention to minor details in system design, requirements, or data specifications helped you identify a potential edge case or future scalability problem that could have been overlooked.",
+    "what_they_want": [
+      "thoroughness in analysis",
+      "proactive identification of issues",
+      "consideration of edge cases"
+    ],
+    "red_flags": [
+      "overlooks subtle implications",
+      "rushes through design/requirements",
+      "focuses only on happy path scenarios"
+    ]
+  }
+]

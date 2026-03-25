@@ -1,0 +1,475 @@
+[
+  {
+    "id": "tcp_udp_001",
+    "topic": "TCP vs UDP",
+    "category": "networking",
+    "difficulty": "medium",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "What is the key difference between TCP and UDP?"
+      },
+      {
+        "type": "scenario",
+        "q": "You're building a live video streaming app. Which protocol would you choose and why?"
+      },
+      {
+        "type": "compare",
+        "q": "A colleague says UDP is always faster than TCP. How would you respond?"
+      }
+    ],
+    "key_points": [
+      "reliability",
+      "three-way handshake",
+      "ordering",
+      "use cases"
+    ],
+    "common_mistakes": [
+      "saying UDP is just faster without discussing tradeoffs"
+    ]
+  },
+  {
+    "id": "http_https_001",
+    "topic": "HTTP vs HTTPS",
+    "category": "networking",
+    "difficulty": "easy",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "What does HTTPS add on top of HTTP?"
+      },
+      {
+        "type": "scenario",
+        "q": "A junior dev asks if HTTPS matters for an internal tool. What do you say?"
+      },
+      {
+        "type": "compare",
+        "q": "Explain the TLS handshake process at a high level."
+      }
+    ],
+    "key_points": [
+      "TLS",
+      "encryption",
+      "certificates",
+      "CA",
+      "man-in-the-middle"
+    ],
+    "common_mistakes": [
+      "confusing SSL and TLS",
+      "thinking HTTPS prevents all attacks"
+    ]
+  },
+  {
+    "id": "cap_001",
+    "topic": "CAP Theorem",
+    "category": "systems",
+    "difficulty": "hard",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "Explain the CAP theorem in plain English."
+      },
+      {
+        "type": "scenario",
+        "q": "You're designing a payments system. How does CAP theorem influence your database choice?"
+      },
+      {
+        "type": "compare",
+        "q": "What's the difference between CP and AP systems? Give a real example of each."
+      }
+    ],
+    "key_points": [
+      "consistency",
+      "availability",
+      "partition tolerance",
+      "you can only pick two"
+    ],
+    "common_mistakes": [
+      "thinking you always need all three",
+      "not knowing real examples like Cassandra vs HBase"
+    ]
+  },
+  {
+    "id": "sql_nosql_001",
+    "topic": "SQL vs NoSQL",
+    "category": "databases",
+    "difficulty": "medium",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "What are the main tradeoffs between SQL and NoSQL databases?"
+      },
+      {
+        "type": "scenario",
+        "q": "You're building a product catalogue for an e-commerce site with variable item attributes. SQL or NoSQL?"
+      },
+      {
+        "type": "compare",
+        "q": "When would you choose MongoDB over PostgreSQL?"
+      }
+    ],
+    "key_points": [
+      "schema flexibility",
+      "ACID",
+      "scalability",
+      "query patterns",
+      "use case fit"
+    ],
+    "common_mistakes": [
+      "saying NoSQL is always faster",
+      "not mentioning query patterns as a deciding factor"
+    ]
+  },
+  {
+    "id": "solid_001",
+    "topic": "SOLID Principles",
+    "category": "software_engineering",
+    "difficulty": "medium",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "Can you walk me through the SOLID principles?"
+      },
+      {
+        "type": "scenario",
+        "q": "You're reviewing a PR where a class has 400 lines and handles auth, logging, and DB writes. Which SOLID principle is being violated?"
+      },
+      {
+        "type": "compare",
+        "q": "What's the difference between the Open/Closed Principle and the Liskov Substitution Principle?"
+      }
+    ],
+    "key_points": [
+      "SRP",
+      "OCP",
+      "LSP",
+      "ISP",
+      "DIP"
+    ],
+    "common_mistakes": [
+      "reciting acronyms without explaining them",
+      "no practical examples"
+    ]
+  },
+  {
+    "id": "software_engineering_001",
+    "topic": "Data Structures and Algorithms",
+    "category": "software_engineering",
+    "difficulty": "medium",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "Explain the difference between a hash map and a binary search tree, and when you would choose one over the other."
+      },
+      {
+        "type": "scenario",
+        "q": "Design an algorithm to find the shortest path in a weighted graph. What data structure would you use to implement the priority queue?"
+      },
+      {
+        "type": "compare",
+        "q": "Compare the time and space complexity of different sorting algorithms like QuickSort, MergeSort, and HeapSort in worst and average cases."
+      }
+    ],
+    "key_points": [
+      "Time and Space Complexity (Big O notation)",
+      "Common Data Structures (Arrays, Linked Lists, Trees, Graphs, Hash Tables)",
+      "Common Algorithms (Sorting, Searching, Dynamic Programming, Recursion)",
+      "Problem-solving strategies (Greedy, Divide and Conquer)"
+    ],
+    "common_mistakes": [
+      "Failing to analyze edge cases",
+      "Incorrectly calculating time/space complexity",
+      "Choosing an inefficient data structure for the problem"
+    ]
+  },
+  {
+    "id": "systems_001",
+    "topic": "System Design",
+    "category": "systems",
+    "difficulty": "hard",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "What are the key non-functional requirements to consider when designing a scalable system, and how do they interact?"
+      },
+      {
+        "type": "scenario",
+        "q": "Design a system like Twitter's newsfeed or YouTube's video watching platform, detailing its core components and data flow."
+      },
+      {
+        "type": "compare",
+        "q": "Compare monolithic vs. microservices architectures in terms of scalability, development speed, and operational complexity."
+      }
+    ],
+    "key_points": [
+      "Scalability (Vertical/Horizontal)",
+      "Reliability and Availability",
+      "Latency and Throughput",
+      "Core Components (Databases, Caches, Message Queues, Load Balancers)",
+      "Trade-offs and Constraints"
+    ],
+    "common_mistakes": [
+      "Not clarifying requirements (functional and non-functional)",
+      "Overlooking failure modes and recovery strategies",
+      "Jumping straight to a solution without considering alternatives"
+    ]
+  },
+  {
+    "id": "software_engineering_002",
+    "topic": "Multithreading and Concurrency",
+    "category": "software_engineering",
+    "difficulty": "medium",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "Explain the concepts of race conditions, deadlocks, and livelocks in concurrent programming."
+      },
+      {
+        "type": "scenario",
+        "q": "You are implementing a shared cache in a multi-threaded application. How would you ensure thread safety and prevent data corruption?"
+      },
+      {
+        "type": "compare",
+        "q": "Compare different synchronization primitives like mutexes, semaphores, and condition variables, and describe their appropriate use cases."
+      }
+    ],
+    "key_points": [
+      "Threads vs. Processes",
+      "Race Conditions, Deadlocks, Livelocks",
+      "Synchronization Primitives (Mutexes, Semaphores, Locks)",
+      "Thread Safety and Immutability",
+      "Concurrency Models (e.g., Actor Model, CSP)"
+    ],
+    "common_mistakes": [
+      "Forgetting to handle shared state correctly",
+      "Introducing performance bottlenecks with over-locking",
+      "Not considering the memory model of the language/platform"
+    ]
+  },
+  {
+    "id": "databases_001",
+    "topic": "Database Design",
+    "category": "databases",
+    "difficulty": "medium",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "Explain the concept of database normalization and its different forms (1NF, 2NF, 3NF, BCNF)."
+      },
+      {
+        "type": "scenario",
+        "q": "Design a database schema for an e-commerce platform, including tables for users, products, orders, and payments. Justify your choices for relationships and indexing."
+      },
+      {
+        "type": "compare",
+        "q": "Compare the trade-offs between normalization and denormalization in a database schema."
+      }
+    ],
+    "key_points": [
+      "Schema Design and Entity-Relationship Modeling",
+      "Normalization and Denormalization",
+      "Indexing Strategies (B-tree, Hash, Full-text)",
+      "Data Integrity and Constraints (Primary Keys, Foreign Keys)",
+      "Query Optimization"
+    ],
+    "common_mistakes": [
+      "Poor indexing leading to slow queries",
+      "Not enforcing data integrity with constraints",
+      "Over-normalizing or under-normalizing without justification"
+    ]
+  },
+  {
+    "id": "software_engineering_003",
+    "topic": "Object-Oriented Design (OOD)",
+    "category": "software_engineering",
+    "difficulty": "medium",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "Explain the core principles of Object-Oriented Programming (Encapsulation, Inheritance, Polymorphism, Abstraction) with examples."
+      },
+      {
+        "type": "scenario",
+        "q": "Design a class hierarchy for a game with different types of characters (e.g., Warrior, Mage, Archer) and their abilities. How would you handle common actions and unique skills?"
+      },
+      {
+        "type": "compare",
+        "q": "Compare composition over inheritance as a design principle, providing examples of when to use each."
+      }
+    ],
+    "key_points": [
+      "Encapsulation, Inheritance, Polymorphism, Abstraction",
+      "Design Patterns (e.g., Factory, Singleton, Strategy, Observer)",
+      "Class Relationships (Composition, Aggregation, Association)",
+      "Code Reusability and Maintainability",
+      "Dependency Injection"
+    ],
+    "common_mistakes": [
+      "Creating rigid class hierarchies that are hard to extend",
+      "Misapplying design patterns without understanding the context",
+      "Tight coupling between classes"
+    ]
+  },
+  {
+    "id": "networking_001",
+    "topic": "DNS Resolution",
+    "category": "networking",
+    "difficulty": "easy",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "Describe the process of how a domain name is resolved to an IP address when you type a URL into your browser."
+      },
+      {
+        "type": "scenario",
+        "q": "A user reports they can access your service by its IP address but not by its domain name. What are the common causes and troubleshooting steps?"
+      },
+      {
+        "type": "compare",
+        "q": "Compare different types of DNS records (A, CNAME, MX) and their specific purposes."
+      }
+    ],
+    "key_points": [
+      "Domain Name System (DNS)",
+      "DNS Servers (Resolver, Root, TLD, Authoritative)",
+      "DNS Records (A, AAAA, CNAME, MX, TXT)",
+      "Caching and Time-to-Live (TTL)",
+      "Troubleshooting DNS issues"
+    ],
+    "common_mistakes": [
+      "Confusing DNS issues with network connectivity problems",
+      "Not understanding the impact of DNS caching",
+      "Incorrectly configuring DNS records"
+    ]
+  },
+  {
+    "id": "systems_002",
+    "topic": "Load Balancing",
+    "category": "systems",
+    "difficulty": "medium",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "What is load balancing, and why is it crucial for building scalable and highly available systems?"
+      },
+      {
+        "type": "scenario",
+        "q": "You are designing a web service that experiences fluctuating traffic. How would you implement load balancing to distribute requests efficiently and handle server failures?"
+      },
+      {
+        "type": "compare",
+        "q": "Compare different load balancing algorithms (e.g., Round Robin, Least Connections, IP Hash) and discuss their suitability for various workloads."
+      }
+    ],
+    "key_points": [
+      "Traffic Distribution and Server Health Checks",
+      "Horizontal Scaling",
+      "High Availability and Fault Tolerance",
+      "Load Balancing Algorithms",
+      "Sticky Sessions and Session Affinity",
+      "Reverse Proxies"
+    ],
+    "common_mistakes": [
+      "Not implementing proper health checks for backend servers",
+      "Choosing an inappropriate load balancing algorithm for the application's needs",
+      "Creating a single point of failure with the load balancer itself"
+    ]
+  },
+  {
+    "id": "databases_002",
+    "topic": "Distributed Database Concepts",
+    "category": "databases",
+    "difficulty": "hard",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "Explain the concepts of sharding (partitioning) and replication in distributed databases, and their respective benefits."
+      },
+      {
+        "type": "scenario",
+        "q": "You need to scale a financial transaction database to handle millions of transactions per second globally. How would you approach data distribution and consistency?"
+      },
+      {
+        "type": "compare",
+        "q": "Compare different consistency models (e.g., strong, eventual, causal) in distributed systems and discuss the trade-offs involved."
+      }
+    ],
+    "key_points": [
+      "Sharding/Partitioning Strategies (Range, Hash, Directory-based)",
+      "Replication (Master-Slave, Multi-Master, Leader-Follower)",
+      "Consistency Models (Strong, Eventual, Causal)",
+      "Distributed Transactions and Two-Phase Commit",
+      "Data Locality and Geo-distribution"
+    ],
+    "common_mistakes": [
+      "Ignoring the complexity of distributed transactions",
+      "Poor choice of sharding key leading to hot spots",
+      "Not understanding the implications of eventual consistency"
+    ]
+  },
+  {
+    "id": "software_engineering_004",
+    "topic": "Debugging and Observability",
+    "category": "software_engineering",
+    "difficulty": "medium",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "Differentiate between logging, metrics, and tracing, and explain how each contributes to system observability."
+      },
+      {
+        "type": "scenario",
+        "q": "A critical production service is experiencing intermittent slowdowns and errors. Describe your systematic approach to diagnose and resolve the issue."
+      },
+      {
+        "type": "compare",
+        "q": "Compare the use of a traditional debugger with advanced logging and tracing tools for diagnosing issues in a distributed system."
+      }
+    ],
+    "key_points": [
+      "Logging Best Practices",
+      "Metrics and Monitoring (CPU, Memory, Latency, Error Rates)",
+      "Distributed Tracing",
+      "Alerting and On-call",
+      "Root Cause Analysis and Post-mortems",
+      "Profiling Tools"
+    ],
+    "common_mistakes": [
+      "Insufficient or unclear logging in production",
+      "Ignoring alerts or misconfiguring monitoring thresholds",
+      "Lack of a systematic approach to debugging complex issues"
+    ]
+  },
+  {
+    "id": "systems_003",
+    "topic": "Horizontal vs Vertical Scaling",
+    "category": "systems",
+    "difficulty": "easy",
+    "question_types": [
+      {
+        "type": "conceptual",
+        "q": "Explain the fundamental differences between horizontal and vertical scaling in system design."
+      },
+      {
+        "type": "scenario",
+        "q": "You have a database server that is becoming a bottleneck due to high read/write load. Describe when you would consider horizontal vs. vertical scaling for this scenario."
+      },
+      {
+        "type": "compare",
+        "q": "Compare the advantages and disadvantages of horizontal versus vertical scaling for a typical web application."
+      }
+    ],
+    "key_points": [
+      "Horizontal Scaling (scaling out by adding more machines)",
+      "Vertical Scaling (scaling up by adding more resources to a single machine)",
+      "Stateless vs. Stateful Applications",
+      "Cost and Complexity Implications",
+      "Limitations of each approach"
+    ],
+    "common_mistakes": [
+      "Applying the wrong scaling strategy for the problem",
+      "Underestimating the complexity of horizontal scaling for stateful services",
+      "Ignoring the diminishing returns and limits of vertical scaling"
+    ]
+  }
+]

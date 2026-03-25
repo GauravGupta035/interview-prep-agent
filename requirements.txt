@@ -1,0 +1,7 @@
+langgraph
+langchain-google-genai
+langchain-core
+langgraph-checkpoint-sqlite
+python-dotenv
+rich
+tavily-python

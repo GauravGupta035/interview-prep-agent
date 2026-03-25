@@ -1,0 +1,17 @@
+# Secrets — never push
+.env
+
+# Personal data — your revision history and scores
+prep_agent.db
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment — too large, others create their own
+venv/
+.venv/
+
+# macOS noise
+.DS_Store

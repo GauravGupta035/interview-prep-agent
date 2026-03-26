@@ -1,0 +1,66 @@
+name: Auto Code Review
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# Prevent two review jobs running simultaneously (e.g. a push and a PR at the same time)
+concurrency:
+  group: auto-review-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    name: Review & Auto-fix
+    runs-on: ubuntu-latest
+
+    # Don't review PRs that the bot itself opens — avoids infinite loop
+    if: ${{ !contains(github.head_ref, 'code-review/auto-fixes') }}
+
+    permissions:
+      contents: write      # to push a fix branch
+      pull-requests: write # to open a PR
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history so we can diff against main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install review dependencies
+        run: |
+          pip install langchain-google-genai langchain-core python-dotenv
+
+      - name: Run auto code reviewer
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # built-in, no setup needed
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          TRIGGER_SHA: ${{ github.sha }}
+          TRIGGER_REF: ${{ github.ref }}
+        run: |
+          python scripts/auto_review.py
+
+      - name: Open PR if fixes were made
+        # This step only runs if the review script created a branch
+        if: ${{ hashFiles('.fix_branch_name') != '' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH=$(cat .fix_branch_name)
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "Auto Code Review: fixes on $(date +'%Y-%m-%d')" \
+            --body-file .pr_body.md \
+            --base main \
+            --head "$BRANCH" \
+            --label "code-review"

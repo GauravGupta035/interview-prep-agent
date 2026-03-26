@@ -172,7 +172,7 @@ def critique_node(state: AgentState) -> dict:
     Displays the STAR breakdown clearly - element by element.
     Uses Rich-style formatting via plain characters.
     """
-    analysis = state.get("satr_analysis", {})
+    analysis = state.get("star_analysis", {})  # fix: typo "satr_analysis" → "star_analysis"
     score = analysis.get("overall_score", 0)
 
     # Score bar - visual indicator
@@ -228,7 +228,7 @@ def rewrite_node(state: AgentState) -> dict:
     choice = input("> ").strip().lower()
     retry = choice == "y"
 
-    return {"retry)requested": retry}
+    return {"retry_requested": retry}  # fix: typo "retry)requested" → "retry_requested"
 
 
 def update_star_profile_node(state: AgentState) -> dict:

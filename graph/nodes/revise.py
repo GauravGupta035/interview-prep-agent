@@ -84,7 +84,7 @@ def evaluate_answer_node(state: AgentState) -> dict:
 
     # Find key points for this topic from messages
     context = ""
-    for msg in state.get("message", []):
+    for msg in state.get("messages", []):  # fix: typo "message" → "messages"
         if isinstance(msg, dict) and msg.get("role") == "system":
             context = msg["content"]
             break

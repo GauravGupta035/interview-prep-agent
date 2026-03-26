@@ -4,7 +4,7 @@ from typing import Annotated, TypedDict
 
 class AgentState(TypedDict):
     # Conversation messages - accumulates across nodes (never overwrites)
-    messages = Annotated[list, operator.add]
+    messages: Annotated[list, operator.add]  # fix: = → : so Annotated reducer is applied
 
     # Current session details
     current_topic: str  # Current topic being covered eg "TCP vs UDP"

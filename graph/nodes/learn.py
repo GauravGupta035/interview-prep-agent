@@ -72,7 +72,7 @@ def teach_node(state: AgentState) -> dict:
     # Pulling the key points context stored in select_learn_topic_node
     context = ""
 
-    for msg in state.get("message", []):
+    for msg in state.get("messages", []):  # fix: typo "message" → "messages"
         if isinstance(msg, dict) and msg.get("role") == "system":
             context = msg["content"]
             break
@@ -167,7 +167,7 @@ def evaluate_understanding_node(state: AgentState) -> dict:
                 pass
 
         if line.startswith("VERDICT:"):
-            verdict = line.replace("VERDICT", "").strip().lower()
+            verdict = line.replace("VERDICT:", "").strip().lower()  # fix: missing colon → verdict never matched
 
     # Update profile
     topic_scores = state.get("topic_scores", {})
@@ -183,7 +183,7 @@ def evaluate_understanding_node(state: AgentState) -> dict:
         "evaluation": result,
         "verdict": verdict,
         "topic_scores": topic_scores,
-        "topic_introduced": topics_introduced,
+        "topics_introduced": topics_introduced,  # fix: typo "topic_introduced" → "topics_introduced"
         "messages": [{"role": "assistant", "content": result}],
     }
 
@@ -222,6 +222,13 @@ def learning_review_node(state: AgentState) -> dict:
 
         Give a single, focused 3-sentence explanation of just this gap.
         Use a concrete example. Be direct."""
+
+        # fix: prompt was built but never sent to LLM — gap re-explanation was silently dropped
+        try:
+            response = llm.invoke([HumanMessage(content=prompt)])
+            print(f"\nFocused re-explanation:\n{response.content}\n")
+        except Exception as e:
+            print(f"\n(Could not generate re-explanation: {e})\n")
 
     print("Run 'learn' mode again to try this topic once more.\n")
 

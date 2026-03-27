@@ -1,28 +1,38 @@
 """
 conftest.py — Shared fixtures for auto_review unit tests.
 
-Sets a dummy GOOGLE_API_KEY before the module is imported so the
-ChatGoogleGenerativeAI constructor doesn't crash. All LLM calls
-are mocked — no real API requests are ever made.
+Import strategy:
+  We add the `scripts/` directory to sys.path so the test file can do
+  `import auto_review as ar` — a direct module import that does NOT
+  depend on `scripts/__init__.py` existing. This is the most robust
+  approach across CI runners, local pytest, and IDE test runners.
+
+  The dummy GOOGLE_API_KEY is set BEFORE the module is imported so the
+  ChatGoogleGenerativeAI constructor doesn't crash. All LLM calls are
+  mocked in the tests — no real API requests are ever made.
 """
 
 import os
 import sys
 from pathlib import Path
 
-# Ensure the repo root (parent of tests/) is on sys.path so
-# `import scripts.auto_review` resolves in every environment.
-REPO_ROOT = Path(__file__).resolve().parent.parent
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
+# ── Path setup ────────────────────────────────────────────────────────────────
+# Add scripts/ to sys.path so `import auto_review` works directly.
+# This removes any dependency on scripts/__init__.py existing.
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+_SCRIPTS_DIR = _REPO_ROOT / "scripts"
 
-# Must be set BEFORE importing auto_review (it reads at module level)
+for _p in [str(_REPO_ROOT), str(_SCRIPTS_DIR)]:
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
+
+# ── Env vars (must be set BEFORE auto_review is imported) ─────────────────────
 os.environ.setdefault("GOOGLE_API_KEY", "fake-key-for-testing")
 os.environ.setdefault("GITHUB_REPOSITORY", "testuser/testrepo")
 
+# ── Standard imports ──────────────────────────────────────────────────────────
 import json
 import textwrap
-from pathlib import Path
 from unittest.mock import MagicMock
 
 import pytest
@@ -82,7 +92,6 @@ def fake_repo(tmp_path):
     # scripts dir (where auto_review.py lives)
     scripts_dir = tmp_path / "scripts"
     scripts_dir.mkdir()
-    (scripts_dir / "__init__.py").write_text("")
 
     return tmp_path
 

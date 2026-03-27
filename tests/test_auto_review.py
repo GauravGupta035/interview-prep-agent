@@ -3,6 +3,11 @@ test_auto_review.py — Unit tests for the auto code reviewer.
 
 Every test mocks LLM calls via `call_llm` and git/subprocess calls.
 No real API requests. No real git operations. Runs in < 2 seconds.
+
+Import note:
+  conftest.py adds the scripts/ directory to sys.path, so we import
+  `auto_review` directly — NOT `scripts.auto_review`. This removes
+  any dependency on scripts/__init__.py existing.
 """
 
 import json
@@ -10,11 +15,9 @@ import subprocess
 from pathlib import Path
 from unittest.mock import MagicMock, call, patch
 
+# Import the module under test (env vars + sys.path set in conftest.py)
+import auto_review as ar
 import pytest
-
-# Import the module under test (env vars set in conftest.py)
-import scripts.auto_review as ar
-
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # should_ignore
@@ -36,7 +39,9 @@ class TestShouldIgnore:
 
     def test_ignores_lock_files(self):
         assert ar.should_ignore(Path("poetry.lock")) is True
-        assert ar.should_ignore(Path("package-lock.json")) is False  # not *.lock pattern
+        assert (
+            ar.should_ignore(Path("package-lock.json")) is False
+        )  # not *.lock pattern
 
     def test_allows_normal_python(self):
         assert ar.should_ignore(Path("graph/nodes/revise.py")) is False
@@ -99,7 +104,6 @@ class TestCollectAllFiles:
     @patch.object(ar, "REPO_ROOT")
     def test_finds_python_files_and_ignores_pycache(self, mock_root, fake_repo):
         mock_root.__class__ = Path
-        # Replace REPO_ROOT with the fake repo
         ar.REPO_ROOT = fake_repo
 
         files = ar.collect_all_files()
@@ -121,7 +125,6 @@ class TestCollectAllFiles:
         files = ar.collect_all_files()
         names = [f.name for f in files]
 
-        # main.py should come before state.py which comes before router.py
         assert names.index("main.py") < names.index("state.py")
         assert names.index("state.py") < names.index("router.py")
 
@@ -132,12 +135,11 @@ class TestCollectAllFiles:
 
 
 class TestCollectChangedFiles:
-    @patch("scripts.auto_review.subprocess.run")
+    @patch("auto_review.subprocess.run")
     @patch.object(ar, "REPO_ROOT")
     def test_uses_diff_output(self, mock_root, mock_run, fake_repo):
         ar.REPO_ROOT = fake_repo
 
-        # First diff strategy succeeds
         mock_run.return_value = MagicMock(
             returncode=0,
             stdout="graph/nodes/revise.py\nmain.py\n",
@@ -150,13 +152,12 @@ class TestCollectChangedFiles:
         assert "revise.py" in names
         assert len(files) == 2
 
-    @patch("scripts.auto_review.subprocess.run")
-    @patch("scripts.auto_review.collect_all_files")
+    @patch("auto_review.subprocess.run")
+    @patch("auto_review.collect_all_files")
     @patch.object(ar, "REPO_ROOT")
     def test_falls_back_to_full_scan(self, mock_root, mock_all, mock_run, fake_repo):
         ar.REPO_ROOT = fake_repo
 
-        # Both diff strategies fail
         mock_run.return_value = MagicMock(returncode=1, stdout="")
         mock_all.return_value = [fake_repo / "main.py"]
 
@@ -164,12 +165,11 @@ class TestCollectChangedFiles:
         assert files == [fake_repo / "main.py"]
         mock_all.assert_called_once()
 
-    @patch("scripts.auto_review.subprocess.run")
+    @patch("auto_review.subprocess.run")
     @patch.object(ar, "REPO_ROOT")
     def test_filters_nonexistent_files(self, mock_root, mock_run, fake_repo):
         ar.REPO_ROOT = fake_repo
 
-        # Diff mentions a file that doesn't exist
         mock_run.return_value = MagicMock(
             returncode=0,
             stdout="deleted_file.py\nmain.py\n",
@@ -187,7 +187,7 @@ class TestCollectChangedFiles:
 
 
 class TestGetDiffLines:
-    @patch("scripts.auto_review.subprocess.run")
+    @patch("auto_review.subprocess.run")
     def test_parses_multi_line_hunk(self, mock_run, sample_diff_output):
         mock_run.return_value = MagicMock(
             returncode=0,
@@ -196,13 +196,12 @@ class TestGetDiffLines:
 
         result = ar.get_diff_lines()
 
-        # revise.py: +41,5 → lines 41-45 and single-line change at 93
         assert "graph/nodes/revise.py" in result
         revise_lines = result["graph/nodes/revise.py"]
         assert {41, 42, 43, 44, 45} <= revise_lines
         assert 93 in revise_lines
 
-    @patch("scripts.auto_review.subprocess.run")
+    @patch("auto_review.subprocess.run")
     def test_parses_multiple_files(self, mock_run, sample_diff_output):
         mock_run.return_value = MagicMock(
             returncode=0,
@@ -213,7 +212,7 @@ class TestGetDiffLines:
         assert "main.py" in result
         assert "graph/nodes/revise.py" in result
 
-    @patch("scripts.auto_review.subprocess.run")
+    @patch("auto_review.subprocess.run")
     def test_returns_empty_on_diff_failure(self, mock_run):
         mock_run.return_value = MagicMock(returncode=1, stdout="")
         result = ar.get_diff_lines()
@@ -226,7 +225,7 @@ class TestGetDiffLines:
 
 
 class TestCallLlm:
-    @patch("scripts.auto_review.time.sleep")  # don't actually wait
+    @patch("auto_review.time.sleep")
     @patch.object(ar, "llm")
     def test_returns_content_on_success(self, mock_llm, mock_sleep):
         mock_llm.invoke.return_value = MagicMock(content="  hello world  ")
@@ -237,7 +236,7 @@ class TestCallLlm:
         mock_llm.invoke.assert_called_once()
         mock_sleep.assert_called_once_with(ar.LLM_CALL_DELAY)
 
-    @patch("scripts.auto_review.time.sleep")
+    @patch("auto_review.time.sleep")
     @patch.object(ar, "llm")
     def test_retries_on_429(self, mock_llm, mock_sleep):
         mock_llm.invoke.side_effect = [
@@ -250,7 +249,7 @@ class TestCallLlm:
         assert result == "success"
         assert mock_llm.invoke.call_count == 2
 
-    @patch("scripts.auto_review.time.sleep")
+    @patch("auto_review.time.sleep")
     @patch.object(ar, "llm")
     def test_returns_none_after_all_retries(self, mock_llm, mock_sleep):
         mock_llm.invoke.side_effect = Exception("429 RESOURCE_EXHAUSTED")
@@ -260,7 +259,7 @@ class TestCallLlm:
         assert result is None
         assert mock_llm.invoke.call_count == ar.LLM_MAX_RETRIES
 
-    @patch("scripts.auto_review.time.sleep")
+    @patch("auto_review.time.sleep")
     @patch.object(ar, "llm")
     def test_returns_none_on_non_rate_limit_error(self, mock_llm, mock_sleep):
         mock_llm.invoke.side_effect = Exception("Invalid API key")
@@ -268,10 +267,9 @@ class TestCallLlm:
         result = ar.call_llm("test")
 
         assert result is None
-        # Non-rate-limit errors do NOT retry
         mock_llm.invoke.assert_called_once()
 
-    @patch("scripts.auto_review.time.sleep")
+    @patch("auto_review.time.sleep")
     @patch.object(ar, "llm")
     def test_exponential_backoff_waits(self, mock_llm, mock_sleep):
         mock_llm.invoke.side_effect = [
@@ -282,10 +280,11 @@ class TestCallLlm:
 
         ar.call_llm("test")
 
-        # Check the retry wait times: base * 2^attempt
-        wait_calls = [c for c in mock_sleep.call_args_list if c != call(ar.LLM_CALL_DELAY)]
-        assert wait_calls[0] == call(ar.LLM_RETRY_BASE_WAIT * 1)   # 10s
-        assert wait_calls[1] == call(ar.LLM_RETRY_BASE_WAIT * 2)   # 20s
+        wait_calls = [
+            c for c in mock_sleep.call_args_list if c != call(ar.LLM_CALL_DELAY)
+        ]
+        assert wait_calls[0] == call(ar.LLM_RETRY_BASE_WAIT * 1)  # 10s
+        assert wait_calls[1] == call(ar.LLM_RETRY_BASE_WAIT * 2)  # 20s
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -294,9 +293,11 @@ class TestCallLlm:
 
 
 class TestReviewFile:
-    @patch("scripts.auto_review.call_llm")
+    @patch("auto_review.call_llm")
     @patch.object(ar, "REPO_ROOT")
-    def test_parses_clean_json(self, mock_root, mock_llm, fake_repo, sample_findings_json):
+    def test_parses_clean_json(
+        self, mock_root, mock_llm, fake_repo, sample_findings_json
+    ):
         ar.REPO_ROOT = fake_repo
         mock_llm.return_value = sample_findings_json
 
@@ -306,9 +307,11 @@ class TestReviewFile:
         assert findings[0]["severity"] == "CRITICAL"
         assert findings[0]["file"] == "main.py"
 
-    @patch("scripts.auto_review.call_llm")
+    @patch("auto_review.call_llm")
     @patch.object(ar, "REPO_ROOT")
-    def test_strips_markdown_fences(self, mock_root, mock_llm, fake_repo, sample_findings_fenced):
+    def test_strips_markdown_fences(
+        self, mock_root, mock_llm, fake_repo, sample_findings_fenced
+    ):
         ar.REPO_ROOT = fake_repo
         mock_llm.return_value = sample_findings_fenced
 
@@ -317,7 +320,7 @@ class TestReviewFile:
         assert len(findings) == 4
         assert findings[0]["severity"] == "CRITICAL"
 
-    @patch("scripts.auto_review.call_llm")
+    @patch("auto_review.call_llm")
     @patch.object(ar, "REPO_ROOT")
     def test_returns_empty_on_llm_failure(self, mock_root, mock_llm, fake_repo):
         ar.REPO_ROOT = fake_repo
@@ -326,7 +329,7 @@ class TestReviewFile:
         findings = ar.review_file(fake_repo / "main.py")
         assert findings == []
 
-    @patch("scripts.auto_review.call_llm")
+    @patch("auto_review.call_llm")
     @patch.object(ar, "REPO_ROOT")
     def test_returns_empty_on_invalid_json(self, mock_root, mock_llm, fake_repo):
         ar.REPO_ROOT = fake_repo
@@ -335,7 +338,7 @@ class TestReviewFile:
         findings = ar.review_file(fake_repo / "main.py")
         assert findings == []
 
-    @patch("scripts.auto_review.call_llm")
+    @patch("auto_review.call_llm")
     @patch.object(ar, "REPO_ROOT")
     def test_handles_empty_array(self, mock_root, mock_llm, fake_repo):
         ar.REPO_ROOT = fake_repo
@@ -351,9 +354,11 @@ class TestReviewFile:
 
 
 class TestApplyFix:
-    @patch("scripts.auto_review.call_llm")
+    @patch("auto_review.call_llm")
     @patch.object(ar, "REPO_ROOT")
-    def test_writes_fixed_content(self, mock_root, mock_llm, fake_repo, sample_fixed_code):
+    def test_writes_fixed_content(
+        self, mock_root, mock_llm, fake_repo, sample_fixed_code
+    ):
         ar.REPO_ROOT = fake_repo
         mock_llm.return_value = sample_fixed_code
         target = fake_repo / "graph" / "nodes" / "revise.py"
@@ -370,7 +375,7 @@ class TestApplyFix:
         assert result is True
         assert "try:" in target.read_text()
 
-    @patch("scripts.auto_review.call_llm")
+    @patch("auto_review.call_llm")
     @patch.object(ar, "REPO_ROOT")
     def test_strips_python_fences_from_fix(self, mock_root, mock_llm, fake_repo):
         ar.REPO_ROOT = fake_repo
@@ -385,7 +390,7 @@ class TestApplyFix:
         assert "```" not in content
         assert "print('fixed')" in content
 
-    @patch("scripts.auto_review.call_llm")
+    @patch("auto_review.call_llm")
     @patch.object(ar, "REPO_ROOT")
     def test_returns_false_on_llm_failure(self, mock_root, mock_llm, fake_repo):
         ar.REPO_ROOT = fake_repo
@@ -472,17 +477,17 @@ class TestBuildReviewBody:
 
 
 class TestGhApi:
-    @patch("scripts.auto_review.subprocess.run")
+    @patch("auto_review.subprocess.run")
     def test_success(self, mock_run):
         mock_run.return_value = MagicMock(returncode=0, stderr="")
         assert ar.gh_api("repos/x/pulls/1/reviews", payload={"body": "hi"}) is True
 
-    @patch("scripts.auto_review.subprocess.run")
+    @patch("auto_review.subprocess.run")
     def test_failure(self, mock_run):
         mock_run.return_value = MagicMock(returncode=1, stderr="422 Unprocessable")
         assert ar.gh_api("repos/x/pulls/1/reviews", payload={"body": "hi"}) is False
 
-    @patch("scripts.auto_review.subprocess.run")
+    @patch("auto_review.subprocess.run")
     def test_passes_json_via_stdin(self, mock_run):
         mock_run.return_value = MagicMock(returncode=0, stderr="")
         payload = {"body": "test", "event": "COMMENT"}
@@ -499,15 +504,14 @@ class TestGhApi:
 
 
 class TestPostPrReview:
-    @patch("scripts.auto_review.gh_api")
-    @patch("scripts.auto_review.get_diff_lines")
+    @patch("auto_review.gh_api")
+    @patch("auto_review.get_diff_lines")
     def test_posts_inline_comments_for_in_diff_findings(
         self, mock_diff, mock_gh, sample_findings
     ):
         for f in sample_findings:
             f["file"] = "graph/nodes/revise.py"
 
-        # Line 42 is in the diff, line 88 is not
         mock_diff.return_value = {"graph/nodes/revise.py": {42, 43, 44}}
         mock_gh.return_value = True
 
@@ -517,26 +521,22 @@ class TestPostPrReview:
         payload = mock_gh.call_args[1]["payload"]
         comments = payload.get("comments", [])
 
-        # Only the CRITICAL at line 42 should be inline (MINOR at 15 is in
-        # PR_COMMENT_SEVERITIES but not in diff; MAJOR at 88 not in diff)
         assert len(comments) == 1
         assert comments[0]["line"] == 42
         assert "CRITICAL" in comments[0]["body"]
 
-    @patch("scripts.auto_review.gh_api")
-    @patch("scripts.auto_review.get_diff_lines")
+    @patch("auto_review.gh_api")
+    @patch("auto_review.get_diff_lines")
     def test_falls_back_on_api_failure(self, mock_diff, mock_gh, sample_findings):
         for f in sample_findings:
             f["file"] = "test.py"
 
         mock_diff.return_value = {"test.py": {42}}
-        # First call fails, second (without inline comments) succeeds
         mock_gh.side_effect = [False, True]
 
         ar.post_pr_review(sample_findings, "99", "sha456")
 
         assert mock_gh.call_count == 2
-        # Second call should NOT have comments key
         second_payload = mock_gh.call_args_list[1][1]["payload"]
         assert "comments" not in second_payload
 
@@ -547,28 +547,28 @@ class TestPostPrReview:
 
 
 class TestMainRouting:
-    @patch("scripts.auto_review.run_pr_mode")
-    @patch("scripts.auto_review.run_push_mode")
+    @patch("auto_review.run_pr_mode")
+    @patch("auto_review.run_push_mode")
     def test_routes_to_pr_mode(self, mock_push, mock_pr):
         with patch.dict("os.environ", {"REVIEW_MODE": "pr"}):
             ar.main()
         mock_pr.assert_called_once()
         mock_push.assert_not_called()
 
-    @patch("scripts.auto_review.run_pr_mode")
-    @patch("scripts.auto_review.run_push_mode")
+    @patch("auto_review.run_pr_mode")
+    @patch("auto_review.run_push_mode")
     def test_routes_to_push_mode(self, mock_push, mock_pr):
         with patch.dict("os.environ", {"REVIEW_MODE": "push"}):
             ar.main()
         mock_push.assert_called_once()
         mock_pr.assert_not_called()
 
-    @patch("scripts.auto_review.run_pr_mode")
-    @patch("scripts.auto_review.run_push_mode")
+    @patch("auto_review.run_pr_mode")
+    @patch("auto_review.run_push_mode")
     def test_defaults_to_push(self, mock_push, mock_pr):
         with patch.dict("os.environ", {}, clear=False):
-            # Remove REVIEW_MODE if present
             import os
+
             os.environ.pop("REVIEW_MODE", None)
             ar.main()
         mock_push.assert_called_once()

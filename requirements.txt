@@ -5,3 +5,4 @@ langgraph-checkpoint-sqlite
 python-dotenv
 rich
 tavily-python
+pytest

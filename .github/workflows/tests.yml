@@ -25,12 +25,13 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-          pip install pytest
 
       - name: Run tests
         env:
           # Dummy key — all LLM calls are mocked, no real API requests
           GOOGLE_API_KEY: fake-key-for-testing
           GITHUB_REPOSITORY: ${{ github.repository }}
+          # Repo root must be on PYTHONPATH so `import scripts.auto_review` resolves
+          PYTHONPATH: .
         run: |
           pytest tests/ -v --tb=short

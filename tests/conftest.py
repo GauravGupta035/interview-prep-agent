@@ -7,6 +7,14 @@ are mocked — no real API requests are ever made.
 """
 
 import os
+import sys
+from pathlib import Path
+
+# Ensure the repo root (parent of tests/) is on sys.path so
+# `import scripts.auto_review` resolves in every environment.
+REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 # Must be set BEFORE importing auto_review (it reads at module level)
 os.environ.setdefault("GOOGLE_API_KEY", "fake-key-for-testing")
@@ -19,7 +27,6 @@ from unittest.mock import MagicMock
 
 import pytest
 
-
 # ── Fake repo tree ────────────────────────────────────────────────────────────
 
 
@@ -30,9 +37,7 @@ def fake_repo(tmp_path):
     nodes_dir = tmp_path / "graph" / "nodes"
     nodes_dir.mkdir(parents=True)
     (nodes_dir / "__init__.py").write_text("")
-    (nodes_dir / "revise.py").write_text(
-        "def revise_node(state):\n    return state\n"
-    )
+    (nodes_dir / "revise.py").write_text("def revise_node(state):\n    return state\n")
 
     # graph/state.py
     (tmp_path / "graph" / "__init__.py").write_text("")

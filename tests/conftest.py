@@ -29,6 +29,9 @@ for _p in [str(_REPO_ROOT), str(_SCRIPTS_DIR)]:
 # ── Env vars (must be set BEFORE auto_review is imported) ─────────────────────
 os.environ.setdefault("GOOGLE_API_KEY", "fake-key-for-testing")
 os.environ.setdefault("GITHUB_REPOSITORY", "testuser/testrepo")
+# TavilyClient raises at construction if no key is present, so data.topic_refresher
+# can't even be imported without this. All Tavily calls are mocked in the tests.
+os.environ.setdefault("TAVILY_API_KEY", "fake-tavily-key-for-testing")
 
 # ── Standard imports ──────────────────────────────────────────────────────────
 import json

@@ -1,0 +1,20 @@
+# CODEOWNERS — every PR to a matching path requires review from the listed owner.
+# GitHub auto-requests these reviewers and, with branch protection enabled,
+# blocks merge until they approve. Last matching pattern wins.
+
+# Default owner for everything in the repo.
+*                       @GauravGupta035
+
+# CI / automation — guard the workflows and the auto-reviewer itself.
+/.github/               @GauravGupta035
+/scripts/               @GauravGupta035
+
+# Core agent logic.
+/graph/                 @GauravGupta035
+/main.py                @GauravGupta035
+
+# Question banks + refresh logic (also schema-checked by tests/test_data_integrity.py).
+/data/                  @GauravGupta035
+
+# Tests.
+/tests/                 @GauravGupta035

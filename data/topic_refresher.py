@@ -415,7 +415,9 @@ def refresh_behavioural_bank() -> dict:
         }
 
     unique_new = deduplicate_behavioural(existing, new_questions)
-    unique_new = assign_behavioural_ids(existing, new_questions)
+    # fix: assign IDs to the *deduplicated* list — previously this passed
+    # new_questions, discarding the dedup result and re-adding duplicates.
+    unique_new = assign_behavioural_ids(existing, unique_new)
 
     updated = existing + unique_new
     save_behavioural(updated)

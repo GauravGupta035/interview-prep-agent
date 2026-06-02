@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 from graph.state import AgentState
@@ -48,11 +48,18 @@ def select_topic_node(state: AgentState) -> dict:
     return {
         "current_topic": chosen["topic"],
         "current_question": question_entry["q"],
-        # Storing key points so evaluators can reference them
+        # Storing key points so evaluators can reference them.
+        # fix: store as a dict (role/content) to match how evaluate_answer_node
+        # reads context — a SystemMessage object fails `isinstance(msg, dict)`
+        # so the key points were silently dropped from every revision grade.
         "messages": [
-            SystemMessage(
-                f"Key points for {chosen['topic']}: {', '.join(chosen['key_points'])}. Common mistakes: {', '.join(chosen['common_mistakes'])}"
-            )
+            {
+                "role": "system",
+                "content": (
+                    f"Key points for {chosen['topic']}: {', '.join(chosen['key_points'])}. "
+                    f"Common mistakes: {', '.join(chosen['common_mistakes'])}"
+                ),
+            }
         ],
     }
 
